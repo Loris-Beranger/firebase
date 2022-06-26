@@ -1,6 +1,7 @@
 import { async } from '@firebase/util';
 import { useContext } from 'react';
 import './App.css';
+import SignUp from './SignUp/SignUp';
 import { UserContext } from './userContext';
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>test</p>
+      <SignUp />
     </div>
   );
 }
