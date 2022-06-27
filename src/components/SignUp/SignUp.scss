@@ -17,6 +17,7 @@ background: linear-gradient(90deg, rgba(7,231,176,1) 0%, rgba(0,172,255,1) 100%)
         align-items: center;
         border-radius: 15px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        position: relative;
 
         h2 {
             color: white;
@@ -53,6 +54,12 @@ background: linear-gradient(90deg, rgba(7,231,176,1) 0%, rgba(0,172,255,1) 100%)
                 transition: 300ms;
                 box-shadow: rgba(255, 255, 255, 0.35) 0px 0px 20px;
             }
+        }
+        .validation {
+            color: rgb(146, 9, 9);
+            position: absolute;
+            bottom: 0;
+            font-size: 14px;
         }
     }
 }

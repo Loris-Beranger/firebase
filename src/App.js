@@ -1,27 +1,23 @@
 import { async } from '@firebase/util';
 import { useContext } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import SignUp from './SignUp/SignUp';
-import { UserContext } from './userContext';
+import Home from './components/Home/Home';
+import SignUp from './components/SignUp/SignUp';
+import { UserContext } from './context/userContext';
+import Private from './pages/Private/Private';
+import PrivateHome from './pages/Private/PrivateHome/PrivateHome';
 
-function App() {
-  const { signUp } = useContext(UserContext);
-
-  const handleForm = async (e) => {
-    
-    try {
-      const cred = await signUp("loris@gmail.com", "lolo01")
-      console.log(cred);
-    } catch (err) {
-      
-    }
-  }
-  
-  handleForm();
+function App() { 
 
   return (
     <div className="App">
-      <SignUp />
+      <Routes>
+        <Route path="/" element={<SignUp />} />
+        <Route path="/private" element={<Private />}>
+          <Route path="/private/private-home" element={<PrivateHome />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
