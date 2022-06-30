@@ -23,9 +23,10 @@ export function UserContextProvider(props) {
     }, [])
 
     const signUp = (email, pwd) => createUserWithEmailAndPassword(auth, email, pwd);
+    const signIn = (email, pwd) => signInWithEmailAndPassword(auth, email, pwd);
 
     return (
-        <UserContext.Provider value={{signUp, currentUser}}>
+        <UserContext.Provider value={{signUp, signIn, currentUser}}>
             {!loadingData && props.children}
         </UserContext.Provider>
     )
