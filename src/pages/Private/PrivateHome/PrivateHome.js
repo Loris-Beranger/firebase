@@ -2,12 +2,14 @@ import React from 'react'
 import './PrivateHome.scss'
 import { signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '../../../firebase-config';
+import { auth, db } from '../../../firebase-config';
 import { getMessaging, getToken } from "firebase/messaging";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore"; 
 
 
 export default function PrivateHome() {
   const navigate = useNavigate();
+  console.log(auth)
   
   const logOut = async () => {
     try {
@@ -18,33 +20,25 @@ export default function PrivateHome() {
     }
   }
 
-  const messaging = getMessaging();
-
-  function requestPermission() {
-    console.log('Requesting permission...');
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      }
-    })
+  const testdb = async () => {
+    try {
+      const docRef = await setDoc(doc(db, "cities", "LA"), {
+        id: 1,
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA"
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
+
+  testdb()
 
   
 
-  getToken(messaging, { vapidKey: 'BGMpR1jychcszWBNMouqj-1bnJKq67T6v9idzYbTaFxB0lxuLLU6afYWpQHcrUpDWdXhLuDbO3eZsGSWy7-Y5Ds' }).then((currentToken) => {
-    if (currentToken) {
-      // Send the token to your server and update the UI if necessary
-      console.log(currentToken)
-      localStorage.setItem('messagingToken', currentToken);
-    } else {
-      // Show permission request UI
-      console.log('No registration token available. Request permission to generate one.');
-      // ...
-    }
-  }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // ...
-  });
+  
+
 
 
   return (
