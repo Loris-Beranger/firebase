@@ -1,0 +1,94 @@
+.section-chat {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 70%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+
+    .chatroom-infos {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+
+        .chat-user-infos {
+            display: flex;
+
+            .avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 100%;
+                border: 2px solid white;
+            }
+            .chat-name {
+                color: white;
+                margin-left: 20px;
+                font-size: 1.1em;
+            }
+        }
+        .btn-chat-options {
+            background-color: transparent;
+            border: none;
+            color: white;
+
+            .icon-btn-options {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+    }
+
+    .messages-box {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .inputs-box {
+        width: 100%;
+        display: flex;
+        padding: 10px 30px;
+
+        .input-message {
+            height: 100%;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            border-top-right-radius: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            color: rgba(255, 255, 255, 0.8);
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+            &:focus {
+                outline-style: none;
+            }
+        }
+        .input-send {
+            margin-left: 1px;
+            width: 40px;
+            height: 50px;
+            border: none;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+
+            .icon-send {
+                color: white;
+                width: 70%;
+                height: 70%;
+            }
+        }
+    }
+}
