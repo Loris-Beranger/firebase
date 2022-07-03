@@ -33,26 +33,26 @@ export default function SignUp() {
       const handleForm = async (e) => {
         e.preventDefault();
         
-        if((inputs.current[1].value.length || inputs.current[2].value.length) < 6){
+        if((inputs.current[2].value.length || inputs.current[3].value.length) < 6){
           setValidation("6 caractères minimum");
           return;
         }
-        else if(inputs.current[1].value !== inputs.current[2].value) {
+        else if(inputs.current[2].value !== inputs.current[3].value) {
           setValidation("Mots de passes différents");
           return;
         }
       
         try {
-          const result = await signUp(inputs.current[0].value, inputs.current[1].value);
+          const result = await signUp(inputs.current[1].value, inputs.current[2].value);
           setValidation("");
           console.log(result.user);
           /* formRef.current.reset(); */
           /* notify(); */
           await setDoc(doc(db, "users", result.user.uid), {
-            uid: 1,
+            uid: result.user.uid,
             email: result.user.email,
-            name: "Loris",
-            avatarPath: "image",
+            name: inputs.current[0].value,
+            avatarPath: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1200px-Circle-icons-profile.svg.png",
             createdAt: Timestamp.fromDate(new Date()),
             isOnline: true
           });
@@ -73,6 +73,7 @@ export default function SignUp() {
   return (
     <form onSubmit={handleForm} ref={formRef}>
       <h2>Inscription</h2>
+      <input type="text" placeholder="Nom" ref={addInputs} />
       <input type="email" placeholder="Email" ref={addInputs} />
       <input type="password" placeholder="Mot de passe" ref={addInputs} />
       <input type="password" placeholder="Mot de passe" ref={addInputs} />

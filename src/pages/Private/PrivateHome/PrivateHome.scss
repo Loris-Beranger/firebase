@@ -7,20 +7,64 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 50px;
+        padding: 100px 50px;
     
         .section-chat {
             background-color: rgba(0, 0, 0, 0.5);
             height: 100%;
             width: 70%;
             border-radius: 15px;
-            padding: 30px;
+            display: flex;
+            flex-direction: column;
 
-            h1 {
+            .chatroom-infos {
+                background-color: rgba(0, 0, 0, 0.2);
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+            }
+
+            .messages-box {
+                height: 100%;
+                width: 100%;
                 margin: 0;
             }
-            .btn-logout {
-                height: 30px;
+            .inputs-box {
+                width: 100%;
+                display: flex;
+                padding: 10px 30px;
+
+                .input-message {
+                    height: 100%;
+                    width: 100%;
+                    border: none;
+                    border-radius: 10px;
+                    border-top-right-radius: 0px;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 10px;
+                    color: rgba(255, 255, 255, 0.8);
+
+                    &::placeholder {
+                        color: rgba(255, 255, 255, 0.3);
+                    }
+                    &:focus {
+                        outline-style: none;
+                    }
+                }
+                .input-send {
+                    margin-left: 1px;
+                    width: 40px;
+                    height: 50px;
+                    border: none;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    background-color: rgba(0, 0, 0, 0.5);
+
+                    .icon-send {
+                        color: white;
+                        width: 70%;
+                        height: 70%;
+                    }
+                }
             }
         }
 

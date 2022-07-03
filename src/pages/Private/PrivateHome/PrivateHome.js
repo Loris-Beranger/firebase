@@ -6,6 +6,8 @@ import { auth, db } from '../../../firebase-config';
 import { getMessaging, getToken } from "firebase/messaging";
 import { collection, addDoc, setDoc, doc, query, where, onSnapshot } from "firebase/firestore"; 
 import UsersList from '../../../components/UsersList/UsersList';
+import SideMenu from '../../../components/SideMenu/SideMenu';
+import { BsFillCursorFill } from "react-icons/bs";
 
 
 export default function PrivateHome() {
@@ -15,15 +17,6 @@ export default function PrivateHome() {
 
   const navigate = useNavigate();
   console.log(auth)
-  
-  const logOut = async () => {
-    try {
-      await signOut(auth);
-      navigate('/');
-    } catch {
-      alert("Erreur lors de la déconnexion");
-    }
-  }
 
   useEffect(() => {
     const usersRef = collection(db, "users");
@@ -44,13 +37,17 @@ export default function PrivateHome() {
 
   return (
     <div className='private-home'>
-      <UsersList users={users} />
+      <SideMenu users={users}/>
       <div className='section-chat'>
-        <h1>CHAT DIPSY</h1>
-        <button className='btn-logout' onClick={logOut}>Se déconnecter</button>
-        <form>
-          <input type="text"/>
-          <input type="submit" value="envoyer"/>
+        <div className='chatroom-infos'>
+          <p>Interlocuteur</p>
+        </div>
+        <ul className='messages-box'>
+          <li>message</li>
+        </ul>
+        <form className='inputs-box'>
+          <input type="text" className='input-message' placeholder='Ecrivez votre message'/>
+          <button type="submit" className='input-send'><BsFillCursorFill className='icon-send'/></button>
         </form>
       </div>
     </div>
