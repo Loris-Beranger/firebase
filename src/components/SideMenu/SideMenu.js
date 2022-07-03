@@ -5,7 +5,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase-config';
 
-export default function SideMenu({users}) {
+export default function SideMenu({users, setChat}) {
     const navigate = useNavigate();
 
     const logOut = async () => {
@@ -21,7 +21,7 @@ export default function SideMenu({users}) {
         <div className='wrapper-searchbar'>
             <input type="text" className="search-bar" placeholder='Recherchez'/>
         </div>
-        <UsersList users={users} />
+        <UsersList users={users} setChat={setChat}/>
         <button className='btn-logout' onClick={logOut}>Se déconnecter</button>
     </div>
   )

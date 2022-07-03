@@ -12,6 +12,7 @@ import { BsFillCursorFill } from "react-icons/bs";
 
 export default function PrivateHome() {
   const [users, setUsers] = useState([]);
+  const [chat, setChat] = useState("");
 
   const user1 = auth.currentUser.uid;
 
@@ -32,15 +33,17 @@ export default function PrivateHome() {
     return () => unsub();
   }, [user1])
 
-  console.log(users);
+  console.log(chat);
+
+  
   
 
   return (
     <div className='private-home'>
-      <SideMenu users={users}/>
+      <SideMenu users={users} setChat={setChat}/>
       <div className='section-chat'>
         <div className='chatroom-infos'>
-          <p>Interlocuteur</p>
+          <p>{chat.name}</p>
         </div>
         <ul className='messages-box'>
           <li>message</li>
