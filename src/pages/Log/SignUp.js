@@ -3,6 +3,8 @@ import { UserContext } from '../../context/userContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom'
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 export default function SignUp() {
     const notify = () => toast.success('Tu es maintenant inscrit !', {
@@ -18,6 +20,7 @@ export default function SignUp() {
       const navigate = useNavigate();
     
       const [validation, setValidation] = useState("");
+      const [userInfos, setUserInfos] = useState(false);
     
       const { signUp } = useContext(UserContext);
       const formRef = useRef();
@@ -40,13 +43,22 @@ export default function SignUp() {
         }
       
         try {
-          const cred = await signUp(inputs.current[0].value, inputs.current[1].value);
+          const result = await signUp(inputs.current[0].value, inputs.current[1].value);
           setValidation("");
-          console.log(cred);
-          formRef.current.reset();
+          console.log(result.user);
+          /* formRef.current.reset(); */
           /* notify(); */
+          await setDoc(doc(db, "users", result.user.uid), {
+            uid: 1,
+            email: result.user.email,
+            name: "Loris",
+            avatarPath: "image",
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true
+          });
           navigate("/private/private-home");
         } catch (err) {
+          console.log(err)
           if(err.code === "auth/invalid-email") {
             setValidation("Format d'email incorrect")
           }
@@ -55,6 +67,8 @@ export default function SignUp() {
             setValidation("Email déja utilisée");
           }
         }
+   
+       
       }
   return (
     <form onSubmit={handleForm} ref={formRef}>

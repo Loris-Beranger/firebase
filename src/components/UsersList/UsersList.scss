@@ -1,0 +1,12 @@
+.users-list {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 25%;
+    border-radius: 15px;
+    padding: 30px;
+    list-style: none;
+
+    .user {
+        color: white;
+    }
+}

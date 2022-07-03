@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home/Home';
-import Log from './components/Log/Log';
+import Log from './pages/Log/Log';
 import { UserContext } from './context/userContext';
 import Private from './pages/Private/Private';
 import PrivateHome from './pages/Private/PrivateHome/PrivateHome';
