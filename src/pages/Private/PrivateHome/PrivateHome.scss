@@ -37,13 +37,13 @@
                 display: inline-block;
                 position: absolute;
                 top: calc(50% - 50px);
-                left: -7px;
+                left: -6px;
                 border-radius: 90%;
                 z-index: 0;
             }
         }
         .private-home.open {
-            transform: translateX(35%);
+            transform: translateX(39%);
         }
     }
     
