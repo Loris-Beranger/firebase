@@ -4,7 +4,7 @@ import { signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth, db } from '../../../firebase-config';
 import { getMessaging, getToken } from "firebase/messaging";
-import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy } from "firebase/firestore"; 
+import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Timestamp } from "firebase/firestore"; 
 import UsersList from '../../../components/UsersList/UsersList';
 import SideMenu from '../../../components/SideMenu/SideMenu';
 import { BsFillCursorFill } from "react-icons/bs";
@@ -15,6 +15,7 @@ export default function PrivateHome() {
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [msgs, setMsgs] = useState([]);
+  const [text, setText] = useState([]);
 
   const user1 = auth.currentUser.uid;
 
@@ -56,13 +57,41 @@ export default function PrivateHome() {
     });
   }
 
+  const handleSubmit = async (e) => {
+    console.log('submit')
+    e.preventDefault();
+    setText("");
+
+    const user2 = chat.uid;
+
+    const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+
+    await addDoc(collection(db, "messages", id, "chat"), {
+      text,
+      from: user1,
+      to: user2,
+      createdAt: Timestamp.fromDate(new Date()),
+      media: "",
+    });
+
+    await setDoc(doc(db, "lastMsg", id), {
+      text,
+      from: user1,
+      to: user2,
+      createdAt: Timestamp.fromDate(new Date()),
+      media: "",
+      unread: true,
+    });
+
+  }
+
   console.log(msgs);
   
 
   return (
     <div className='private-home'>
       <SideMenu users={users} selectUser={selectUser}/>
-      <ChatRoom chat={chat} msgs={msgs} user1={user1}/>
+      <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit}/>
     </div>
   )
 }

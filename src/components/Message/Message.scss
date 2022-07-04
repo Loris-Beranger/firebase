@@ -1,5 +1,4 @@
 .message_wrapper {
-    text-align: left;
     padding: 0 10px;
 
     .message {
@@ -22,6 +21,9 @@ background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
     }
 }
 
-.message_wrapper.own {
+.message_wrapper.me {
     text-align: right;
+}
+.message_wrapper.friend {
+    text-align: left;
 }

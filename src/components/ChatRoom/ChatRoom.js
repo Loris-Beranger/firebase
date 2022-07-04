@@ -3,7 +3,7 @@ import './ChatRoom.scss'
 import { BsFillCursorFill, BsThreeDotsVertical } from "react-icons/bs";
 import Message from '../Message/Message';
 
-export default function ChatRoom({chat, msgs, user1}) {
+export default function ChatRoom({chat, msgs, user1, text, setText, handleSubmit}) {
   return (
     <div className="section-chat">
 
@@ -21,11 +21,13 @@ export default function ChatRoom({chat, msgs, user1}) {
         ))}
       </div>
 
-      <form className="inputs-box">
+      <form className="inputs-box" onSubmit={handleSubmit}>
         <input
           type="text"
           className="input-message"
           placeholder="Ecrivez votre message"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
         <button type="submit" className="input-send">
           <BsFillCursorFill className="icon-send" />
