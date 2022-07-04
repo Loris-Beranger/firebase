@@ -46,3 +46,20 @@
         }
     }
 }
+
+@media screen and (max-width: 640px) {
+    .side-menu {
+            position: absolute;
+            left: -34%;
+            width: 35%;
+            height: calc(100% - 20px);
+            z-index: 2;
+        .wrapper-searchbar {
+    
+            .search-bar {
+                
+            }
+        }
+    }
+    
+  }
