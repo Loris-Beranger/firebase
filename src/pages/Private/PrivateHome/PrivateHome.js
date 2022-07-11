@@ -32,6 +32,7 @@ export default function PrivateHome() {
         users.push(doc.data());
       });
       setUsers(users);
+      selectUser(users[0])
     });
     return () => unsub();
   }, [user1])
