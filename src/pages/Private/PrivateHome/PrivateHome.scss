@@ -9,6 +9,9 @@
         align-items: center;
         padding: 100px 50px;
         
+        .btn-open-sidemenu {
+            display: none;
+        }
 
         h1 {
             margin: 0;
@@ -18,3 +21,30 @@
         }
     }
 }
+
+@media screen and (max-width: 640px) {
+    .private {
+        overflow: hidden;
+            
+        .private-home {
+            padding: 10px 10px 10px 30px;
+            transition: all 0.6s ease-in-out;
+
+            .btn-open-sidemenu {
+                width: 50px;
+                height: 50px;
+                color: rgba(255, 255, 255, 0.8);
+                display: inline-block;
+                position: absolute;
+                top: calc(50% - 50px);
+                left: -6px;
+                border-radius: 90%;
+                z-index: 0;
+            }
+        }
+        .private-home.open {
+            transform: translateX(39%);
+        }
+    }
+    
+  }

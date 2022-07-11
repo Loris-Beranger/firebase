@@ -7,7 +7,7 @@ import { getMessaging, getToken } from "firebase/messaging";
 import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Timestamp } from "firebase/firestore"; 
 import UsersList from '../../../components/UsersList/UsersList';
 import SideMenu from '../../../components/SideMenu/SideMenu';
-import { BsFillCursorFill } from "react-icons/bs";
+import { BsFillCursorFill, BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
 import ChatRoom from '../../../components/ChatRoom/ChatRoom';
 
 
@@ -16,6 +16,7 @@ export default function PrivateHome() {
   const [chat, setChat] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState([]);
+  const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
 
   const user1 = auth.currentUser.uid;
 
@@ -87,11 +88,11 @@ export default function PrivateHome() {
   }
 
   console.log(msgs);
-  
 
   return (
-    <div className='private-home'>
-      <SideMenu users={users} selectUser={selectUser}/>
+    <div className={`private-home ${sideMenuIsOpen ? "open" : ""}`}>
+      {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/>}
+      <SideMenu users={users} selectUser={selectUser} />
       <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit}/>
     </div>
   )
