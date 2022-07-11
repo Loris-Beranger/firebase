@@ -5,7 +5,7 @@ export default function Message({ msg, user1 }) {
   const scrollRef = useRef();
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    /* scrollRef.current?.scrollIntoView({ behavior: "smooth" }); */
   }, [msg]);
   return (
     <div 

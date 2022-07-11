@@ -12,11 +12,44 @@ import ChatRoom from '../../../components/ChatRoom/ChatRoom';
 
 
 export default function PrivateHome() {
+
+  const [touchStart, setTouchStart] = useState(null)
+const [touchEnd, setTouchEnd] = useState(null)
+
+// the required distance between touchStart and touchEnd to be detected as a swipe
+const minSwipeDistance = 50 
+
+const onTouchStart = (e) => {
+  setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+  setTouchStart(e.targetTouches[0].clientX)
+}
+
+const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+
+const onTouchEnd = () => {
+  if (!touchStart || !touchEnd) return
+  const distance = touchStart - touchEnd
+  const isLeftSwipe = distance > minSwipeDistance
+  const isRightSwipe = distance < -minSwipeDistance
+  if (isLeftSwipe) {
+    console.log('swipe left');
+    setSideMenuIsOpen(false);
+  }
+  if (isRightSwipe) {
+    console.log('swipe right');
+    setSideMenuIsOpen(true);
+  }
+  
+}
+
+
+  window.scrollTo(0, 0); 
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState([]);
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
+  console.log(sideMenuIsOpen)
 
   const user1 = auth.currentUser.uid;
 
@@ -42,6 +75,7 @@ export default function PrivateHome() {
 
   const selectUser = async (user) => {
     setChat(user);
+    setSideMenuIsOpen(false);
 
     const user2 = user.uid;
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
@@ -90,7 +124,7 @@ export default function PrivateHome() {
   console.log(msgs);
 
   return (
-    <div className={`private-home ${sideMenuIsOpen ? "open" : ""}`}>
+    <div className={`private-home ${sideMenuIsOpen ? "open" : ""}`} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
       {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/>}
       <SideMenu users={users} selectUser={selectUser} />
       <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit}/>
