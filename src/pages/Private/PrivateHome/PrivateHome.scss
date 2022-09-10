@@ -7,7 +7,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 100px 50px;
+        padding: 50px 50px;
         position: relative;
         
         .btn-open-sidemenu {
@@ -25,11 +25,12 @@
 
 @media screen and (max-width: 640px) {
     .private {
-        overflow: hidden;
+        
             
         .private-home {
             padding: 10px 10px 60px 30px;
             transition: all 0.6s ease-in-out;
+            
 
             .btn-open-sidemenu {
                 width: 50px;

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './PrivateHome.scss'
 import { signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth, db } from '../../../firebase-config';
 import { getMessaging, getToken } from "firebase/messaging";
-import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Timestamp } from "firebase/firestore"; 
+import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Timestamp } from "firebase/firestore";
 import UsersList from '../../../components/UsersList/UsersList';
 import SideMenu from '../../../components/SideMenu/SideMenu';
 import { BsFillCursorFill, BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
@@ -12,38 +12,40 @@ import ChatRoom from '../../../components/ChatRoom/ChatRoom';
 
 
 export default function PrivateHome() {
+  const scrollRef = useRef();
+
 
   const [touchStart, setTouchStart] = useState(null)
-const [touchEnd, setTouchEnd] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
 
-// the required distance between touchStart and touchEnd to be detected as a swipe
-const minSwipeDistance = 50 
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50
 
-const onTouchStart = (e) => {
-  setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
-  setTouchStart(e.targetTouches[0].clientX)
-}
-
-const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
-
-const onTouchEnd = () => {
-  if (!touchStart || !touchEnd) return
-  const distance = touchStart - touchEnd
-  const isLeftSwipe = distance > minSwipeDistance
-  const isRightSwipe = distance < -minSwipeDistance
-  if (isLeftSwipe) {
-    console.log('swipe left');
-    setSideMenuIsOpen(false);
+  const onTouchStart = (e) => {
+    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX)
   }
-  if (isRightSwipe) {
-    console.log('swipe right');
-    setSideMenuIsOpen(true);
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe) {
+      console.log('swipe left');
+      setSideMenuIsOpen(false);
+    }
+    if (isRightSwipe) {
+      console.log('swipe right');
+      setSideMenuIsOpen(true);
+    }
+
   }
-  
-}
 
 
-  window.scrollTo(0, 0); 
+  window.scrollTo(0, 0);
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [msgs, setMsgs] = useState([]);
@@ -58,7 +60,7 @@ const onTouchEnd = () => {
 
   useEffect(() => {
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("uid", "not-in", [user1]));
+    const q = query(usersRef, where("uid", "in", [user1]));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
       let users = [];
@@ -66,9 +68,12 @@ const onTouchEnd = () => {
         users.push(doc.data());
       });
       setUsers(users);
+      console.log(users)
       selectUser(users[0])
     });
     return () => unsub();
+
+
   }, [user1])
 
   console.log(chat);
@@ -124,10 +129,16 @@ const onTouchEnd = () => {
   console.log(msgs);
 
   return (
-    <div className={`private-home ${sideMenuIsOpen ? "open" : ""}`} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
-      {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)}/>}
+    <div
+      className={`private-home ${sideMenuIsOpen ? "open" : ""}`}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      ref={scrollRef}
+    >
+      {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} /> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} />}
       <SideMenu users={users} selectUser={selectUser} />
-      <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit}/>
+      <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit} />
     </div>
   )
 }
