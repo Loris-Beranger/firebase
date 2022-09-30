@@ -1,7 +1,7 @@
 import React from 'react'
 import './ChatRoom.scss'
 import { BsFillCursorFill, BsThreeDotsVertical } from "react-icons/bs";
-import Message from '../Message/Message';
+import Message from './Message/Message';
 
 export default function ChatRoom({ chat, msgs, user1, text, setText, handleSubmit }) {
   return (

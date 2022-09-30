@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom'
 import { auth, db } from '../../../firebase-config';
 import { getMessaging, getToken } from "firebase/messaging";
 import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Timestamp } from "firebase/firestore";
-import UsersList from '../../../components/UsersList/UsersList';
-import SideMenu from '../../../components/SideMenu/SideMenu';
+import UsersList from './SideMenu/FriendsList/FriendsList';
+
 import { BsFillCursorFill, BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
-import ChatRoom from '../../../components/ChatRoom/ChatRoom';
+import ChatRoom from './ChatRoom/ChatRoom';
+import SideMenu from './SideMenu/SideMenu'
 
 
 export default function PrivateHome() {
@@ -34,11 +35,11 @@ export default function PrivateHome() {
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
     if (isLeftSwipe) {
-      console.log('swipe left');
+
       setSideMenuIsOpen(false);
     }
     if (isRightSwipe) {
-      console.log('swipe right');
+
       setSideMenuIsOpen(true);
     }
 
@@ -46,19 +47,21 @@ export default function PrivateHome() {
 
 
   window.scrollTo(0, 0);
-  const [users, setUsers] = useState([]);
+  const [currentUserInfos, setCurrentUserInfos] = useState([]);
   const [chat, setChat] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState([]);
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
-  console.log(sideMenuIsOpen)
+
 
   const user1 = auth.currentUser.uid;
 
+
   const navigate = useNavigate();
-  console.log(auth)
+
 
   useEffect(() => {
+
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("uid", "in", [user1]));
 
@@ -67,16 +70,15 @@ export default function PrivateHome() {
       querySnapshot.forEach((doc) => {
         users.push(doc.data());
       });
-      setUsers(users);
-      console.log(users)
-      selectUser(users[0])
+
+      setCurrentUserInfos(users[0]);
     });
     return () => unsub();
 
 
-  }, [user1])
+  }, [])
 
-  console.log(chat);
+
 
   const selectUser = async (user) => {
     setChat(user);
@@ -84,13 +86,13 @@ export default function PrivateHome() {
 
     const user2 = user.uid;
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
-    console.log(id)
+
     const msgsRef = collection(db, "messages", id, "chat");
     const q = query(msgsRef, orderBy("createdAt", "asc"));
 
     onSnapshot(q, (querySnapshot) => {
       let msgs = [];
-      console.log(querySnapshot)
+
       querySnapshot.forEach((doc) => {
         msgs.push(doc.data());
       });
@@ -99,7 +101,7 @@ export default function PrivateHome() {
   }
 
   const handleSubmit = async (e) => {
-    console.log('submit')
+
     e.preventDefault();
     setText("");
 
@@ -126,7 +128,7 @@ export default function PrivateHome() {
 
   }
 
-  console.log(msgs);
+
 
   return (
     <div
@@ -137,7 +139,7 @@ export default function PrivateHome() {
       ref={scrollRef}
     >
       {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} /> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} />}
-      <SideMenu users={users} selectUser={selectUser} />
+      <SideMenu currentUserInfos={currentUserInfos} selectUser={selectUser} />
       <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit} />
     </div>
   )
