@@ -8,8 +8,9 @@ import { collection, addDoc, setDoc, doc, query, where, onSnapshot, orderBy, Tim
 import UsersList from './SideMenu/FriendsList/FriendsList';
 
 import { BsFillCursorFill, BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
-import ChatRoom from './ChatRoom/ChatRoom';
+
 import SideMenu from './SideMenu/SideMenu'
+import MainContainer from './MainContainer/MainContainer';
 
 
 export default function PrivateHome() {
@@ -128,7 +129,7 @@ export default function PrivateHome() {
 
   }
 
-
+  console.log(msgs);
 
   return (
     <div
@@ -140,7 +141,7 @@ export default function PrivateHome() {
     >
       {sideMenuIsOpen ? <BsChevronCompactLeft className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} /> : <BsChevronCompactRight className='btn-open-sidemenu' onClick={() => setSideMenuIsOpen(!sideMenuIsOpen)} />}
       <SideMenu currentUserInfos={currentUserInfos} selectUser={selectUser} />
-      <ChatRoom chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit} />
+      <MainContainer chat={chat} msgs={msgs} user1={user1} text={text} setText={setText} handleSubmit={handleSubmit} />
     </div>
   )
 }

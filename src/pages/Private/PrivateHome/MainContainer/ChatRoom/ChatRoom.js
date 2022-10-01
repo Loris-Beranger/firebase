@@ -4,6 +4,7 @@ import { BsFillCursorFill, BsThreeDotsVertical } from "react-icons/bs";
 import Message from './Message/Message';
 
 export default function ChatRoom({ chat, msgs, user1, text, setText, handleSubmit }) {
+  console.log(msgs);
   return (
     <div className="section-chat">
 
